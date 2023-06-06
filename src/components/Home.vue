@@ -28,14 +28,16 @@
         <button @click="deletePassword(passwordData.id)">Hapus</button>
       </li>
     </ul>
+    <button v-if="isLoggedIn" @click="deleteAccount()">Hapus Akun</button>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, query, where, writeBatch } from 'firebase/firestore';
 import { AES, enc } from 'crypto-js';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth, deleteUser } from 'firebase/auth';
 
 export default {
   name: 'Home',
@@ -46,6 +48,7 @@ export default {
       password: '',
       passwordList: [],
       isLoggedIn: true,
+      userId: '',
     };
   },
   methods: {
@@ -55,10 +58,11 @@ export default {
         appName: this.appName,
         accountName: this.accountName,
         password: encryptedPassword,
+        userId: this.userId,
       };
 
       try {
-        const docRef = await addDoc(collection(getFirestore(this.$firebase.app), 'passwords'), passwordData);
+        const docRef = await addDoc(collection(getFirestore(), 'passwords'), passwordData);
         passwordData.id = docRef.id;
         this.passwordList.push({
           id: passwordData.id,
@@ -75,7 +79,7 @@ export default {
     },
     async deletePassword(passwordId) {
       try {
-        await deleteDoc(doc(getFirestore(this.$firebase.app), 'passwords', passwordId));
+        await deleteDoc(doc(getFirestore(), 'passwords', passwordId));
         this.passwordList = this.passwordList.filter(passwordData => passwordData.id !== passwordId);
       } catch (error) {
         console.error('Error deleting password:', error);
@@ -83,7 +87,7 @@ export default {
     },
     async fetchPasswords() {
       try {
-        const querySnapshot = await getDocs(collection(getFirestore(this.$firebase.app), 'passwords'));
+        const querySnapshot = await getDocs(collection(getFirestore(), 'passwords'));
         this.passwordList = querySnapshot.docs.map(doc => {
           const decryptedPassword = AES.decrypt(doc.data().password, 'secret').toString(enc.Utf8);
           return {
@@ -97,28 +101,84 @@ export default {
         console.error('Error fetching passwords:', error);
       }
     },
+    async fetchPasswordsByUser() {
+      try {
+        const querySnapshot = await getDocs(query(collection(getFirestore(), 'passwords'), where('userId', '==', this.userId)));
+        this.passwordList = querySnapshot.docs.map(doc => {
+          const decryptedPassword = AES.decrypt(doc.data().password, 'secret').toString(enc.Utf8);
+          return {
+            id: doc.id,
+            appName: doc.data().appName,
+            accountName: doc.data().accountName,
+            password: decryptedPassword,
+          };
+        });
+      } catch (error) {
+        console.error('Error fetching user passwords:', error);
+      }
+    },
     checkLoginStatus() {
-    const user = this.$firebase.auth().currentUser;
-    if(user) {
-      this.isLoggedIn = true;
-    } else {
+      const user = getAuth().currentUser;
+      if (user) {
+        this.isLoggedIn = true;
+        this.userId = user.uid;
+      } else {
+        this.isLoggedIn = false;
+        this.userId = '';
+      }
+    },
+    logout() {
+      getAuth().signOut();
       this.isLoggedIn = false;
+      this.userId = '';
+      this.$router.push('/login');
+    },
+    async deleteAccount() {
+      try {
+        const user = getAuth().currentUser;
+        if (user) {
+          // Hapus dokumen password berdasarkan ID pengguna saat ini
+          await this.deleteDocsByUser(user.uid);
+          
+          // Hapus akun saat ini
+          await deleteUser(user);
+          
+          // Reset data pengguna
+          this.passwordList = [];
+          this.isLoggedIn = false;
+          this.userId = '';
+          
+          console.log('Akun berhasil dihapus');
+          this.$router.push('/login');
+        } else {
+          console.log('Tidak ada pengguna yang terautentikasi');
+        }
+      } catch (error) {
+        console.error('Error deleting account:', error);
+      }
+    },
+    async deleteDocsByUser(userId) {
+      try {
+        const querySnapshot = await getDocs(query(collection(getFirestore(), 'passwords'), where('userId', '==', userId)));
+        const batch = writeBatch(getFirestore());
+        
+        querySnapshot.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+        
+        await batch.commit();
+        
+        console.log('Dokumen password pengguna berhasil dihapus');
+      } catch (error) {
+        console.error('Error deleting user password documents:', error);
+      }
     }
   },
-  logout() {
-    // this.$firebase.auth().signOut();
-    this.isLoggedIn = false;
-    this.$router.push('/login');
-  }
-  },
   created() {
-    this.fetchPasswords();
+    this.checkLoginStatus();
+    if (this.isLoggedIn) {
+      this.fetchPasswordsByUser();
+    }
   },
-  mounted() {
-  // this.checkLoginStatus();
-  // this.$firebase.auth().onAuthStateChanged(() => {
-  //   this.checkLoginStatus();
-  // });
-},
 };
 </script>
