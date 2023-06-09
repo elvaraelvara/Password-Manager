@@ -1,19 +1,20 @@
 <template>
-  <div>
+  <div class="home">
     <button v-if="isLoggedIn" @click="logout()">Logout</button>
+    <button v-if="isLoggedIn" @click="deleteAccount()">Hapus Akun</button>
     <h1>Password Manager</h1>
     <form @submit.prevent="addPassword">
-      <label>
+      <label class="aplikasi">
         Nama Aplikasi:
         <input type="text" v-model="appName" required />
       </label>
       <br/>
-      <label>
+      <label class="akun">
         Nama Akun:
         <input type="text" v-model="accountName" required />
       </label>
       <br/>
-      <label>
+      <label class="password">
         Password:
         <input type="password" v-model="password" required />
       </label>
@@ -21,14 +22,13 @@
       <button type="submit">Simpan</button>
     </form>
     <ul>
-      <li v-for="passwordData in passwordList" :key="passwordData.id">
-        <div>Nama Aplikasi: {{ passwordData.appName }}</div>
-        <div>Nama Akun: {{ passwordData.accountName }}</div>
-        <div>Password: {{ passwordData.password }}</div>
+      <li class="data" v-for="passwordData in passwordList" :key="passwordData.id">
+        <div class="outputaplikasi">{{ passwordData.appName }}</div>
+        <div class="outputakun">Nama Akun: {{ passwordData.accountName }}</div>
+        <div class="outputpass">Password: {{ passwordData.password }}</div>
         <button @click="deletePassword(passwordData.id)">Hapus</button>
       </li>
     </ul>
-    <button v-if="isLoggedIn" @click="deleteAccount()">Hapus Akun</button>
   </div>
 </template>
 
@@ -182,3 +182,124 @@ export default {
   },
 };
 </script>
+
+<style>
+.home{
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.akun input,
+.aplikasi input {
+border: none;
+background-color: #ffffff;
+padding: 10px 15px;
+font-size: 16px;
+border-radius: 5px;
+margin: 5px 0;
+width: 100%;
+}
+
+/* Style untuk container data */
+.data {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: #f2f2f2;
+border-radius: 10px;
+padding: 20px;
+margin-top: 20px;
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+width: 80%;
+}
+
+/* Style untuk output aplikasi */
+.outputaplikasi {
+font-size: 18px;
+margin-bottom: 10px;
+font-weight: bold;
+}
+
+/* Style untuk output akun */
+.outputakun {
+font-size: 16px;
+margin-bottom: 10px;
+}
+
+/* Style untuk output password */
+.outputpass {
+font-size: 16px;
+margin-bottom: 20px;
+}
+
+/* Style untuk tombol hapus */
+button {
+background-color: #ff6666;
+color: white;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+padding: 10px 15px;
+cursor: pointer;
+transition: all 0.3s ease;
+margin-top: 10px;
+}
+
+/* Style untuk tombol hapus hover */
+button:hover {
+background-color: #e60000;
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Style untuk input password */
+.password input {
+margin-bottom: 20px;
+}
+
+/* Style untuk tombol simpan */
+button[type='submit'] {
+background-color: #4CAF50;
+color: white;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+padding: 10px 15px;
+cursor: pointer;
+transition: all 0.3s ease;
+margin-top: 20px;
+}
+
+/* Style untuk tombol simpan hover */
+button[type='submit']:hover {
+background-color: #3e8e41;
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Style untuk judul */
+h1 {
+font-size: 36px;
+margin-bottom: 30px;
+text-align: center;
+}
+
+/* Style untuk tombol logout dan hapus akun */
+button {
+background-color: #ff6666;
+color: white;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+padding: 10px 15px;
+cursor: pointer;
+transition: all 0.3s ease;
+margin-top: 20px;
+}
+
+/* Style untuk tombol logout dan hapus akun hover */
+button:hover {
+background-color: #e60000;
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+</style>
