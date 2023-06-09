@@ -52,3 +52,55 @@ mounted() {
 }
 </script>
 
+<style scoped>
+#app {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  color: #2c3e50;
+}
+
+nav {
+  background: linear-gradient(to right, #42b983, #88d7ce);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+}
+
+nav a {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  margin-right: 30px;
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+  transform: scale(1.05);
+  color: #42b983;
+}
+
+nav a.router-link-exact-active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+router-view {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
