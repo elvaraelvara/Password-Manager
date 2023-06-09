@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <h1>Login</h1>
     <form @submit.prevent="login">
       <label>
@@ -42,3 +42,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
