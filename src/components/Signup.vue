@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Signup</h1>
+    <div class="signup-box">
     <form @submit.prevent="showPopup">
       <label>
         Email:
@@ -14,6 +15,7 @@
       <br/>
       <button type="submit">Signup</button>
     </form>
+  </div>
 
     <!-- Pop-up Persyaratan -->
     <div v-if="showRequirementPopup" class="requirement-popup">
@@ -114,3 +116,143 @@ export default {
   }
 }
 </script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5f5f5;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  margin-bottom: 100px;
+  margin-top: 40px;
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signup-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+input[type="email"], input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  outline: none;
+}
+
+button[type="submit"] {
+  background-color: #37b8af;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  background-color: #2c9a91;
+}
+
+.requirement-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.requirement-popup h2 {
+  font-size: 24px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.requirement-popup ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.requirement-popup li {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.requirement-popup label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.requirement-popup input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.requirement-popup button {
+  background-color: #fff;
+  color: #37b8af;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.requirement-popup button:hover {
+  background-color: #f9f9f9;
+}
+
+</style>
