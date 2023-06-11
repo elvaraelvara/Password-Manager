@@ -1,6 +1,12 @@
 <template>
   <div>
-    <h1>Signup</h1>
+    <!-- <header v-if="!isLoggedIn">
+      <nav>
+        <router-link to="/login">Login</router-link>
+        <router-link to="/signup">Register</router-link>
+      </nav>
+    </header> -->
+    <h1>Register</h1>
     <div class="signup-box">
     <form @submit.prevent="showPopup">
       <label>
@@ -13,7 +19,7 @@
         <input type="password" v-model="password"/>
       </label>
       <br/>
-      <button type="submit">Signup</button>
+      <button type="submit">Register</button>
     </form>
   </div>
 
@@ -28,7 +34,9 @@
           </label>
         </li>
       </ul>
-      <button @click="closePopup">OK</button>
+      <button class="cancelButton" @click="closePopup">Cancel</button>
+      <br/>
+      <button @click="OKPopup">OK</button>
     </div>
   </div>
 </template>
@@ -41,6 +49,7 @@ export default {
   
   data() {
     return {
+      isLoggedIn: false,
       email: '',
       password: '',
       showRequirementPopup: false,
@@ -86,6 +95,16 @@ export default {
   },
   
   methods: {
+    checkLoginStatus() {
+      const user = getAuth().currentUser;
+      if (user) {
+        this.isLoggedIn = true;
+        this.userId = user.uid;
+      } else {
+        this.isLoggedIn = false;
+        this.userId = '';
+      }
+    },
     showPopup() {
       if (!this.allRequirementsChecked) {
         this.showRequirementPopup = true;
@@ -93,14 +112,17 @@ export default {
         this.signup();
       }
     },
-    
-    closePopup() {
+    OKPopup() {
       if (this.allRequirementsChecked) {
         this.signup();
         this.showRequirementPopup = false;
       } else {
         alert('Anda harus menyetujui semua persyaratan sebelum melanjutkan.');
       }
+    },
+
+    closePopup() {
+      this.showRequirementPopup = false;
     },
     
     signup() {
@@ -113,7 +135,13 @@ export default {
           alert(error.message);
         });
     }
-  }
+  },
+  mounted() {
+    this.checkLoginStatus();
+    // getAuth().onAuthStateChanged(() => {
+    //   this.checkLoginStatus();
+    // });
+  },
 }
 </script>
 
@@ -196,7 +224,7 @@ button[type="submit"]:hover {
   background-color: #2c9a91;
 }
 
-.requirement-popup {
+/* .requirement-popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -205,7 +233,7 @@ button[type="submit"]:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.704);
   z-index: 999;
 }
 
@@ -253,6 +281,52 @@ button[type="submit"]:hover {
 
 .requirement-popup button:hover {
   background-color: #f9f9f9;
+} */
+
+.requirement-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-height: 80vh; 
+  overflow-y: auto;
+}
+
+.requirement-popup h2 {
+  margin-bottom: 10px;
+}
+
+.requirement-popup ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.requirement-popup li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.requirement-popup button {
+  padding: 5px 10px;
+}
+
+.requirement-popup label {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.requirement-popup input[type="checkbox"] {
+  margin-right: 0;
 }
 
 </style>

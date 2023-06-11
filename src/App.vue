@@ -1,11 +1,9 @@
 <template>
   <div id="app">
     <header>
-      <nav>
-        <!-- <router-link to="/">Home</router-link> -->
-        <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
-        <router-link v-if="!isLoggedIn" to="/signup">Signup</router-link>
-        <a v-if="isLoggedIn" @click="logout()">Logout</a>
+      <nav v-if="!isLoggedIn">
+        <router-link to="/login">Login</router-link>
+        <router-link to="/signup">Register</router-link>
       </nav>
     </header>
     <main>
@@ -15,7 +13,7 @@
 </template>
 
 <script>
-
+import { getAuth } from 'firebase/auth';
 export default {
   name: 'App',
   
@@ -26,27 +24,23 @@ export default {
   },
   
   methods: {
-  checkLoginStatus() {
-    const user = this.$firebase.auth().currentUser;
-    if(user) {
-      this.isLoggedIn = true;
-    } else {
-      this.isLoggedIn = false;
+    checkLoginStatus() {
+      const user = getAuth().currentUser;
+      if (user) {
+        this.isLoggedIn = true;
+        this.userId = user.uid;
+      } else {
+        this.isLoggedIn = false;
+        this.userId = '';
+      }
     }
-  },
-  
-  logout() {
-    this.$firebase.auth().signOut();
-    this.isLoggedIn = false;
-    this.$router.push('/login');
-  }
 },
 
 mounted() {
   this.checkLoginStatus();
-  this.$firebase.auth().onAuthStateChanged(() => {
-    this.checkLoginStatus();
-  });
+  // getAuth().onAuthStateChanged(() => {
+  //   this.checkLoginStatus();
+  // });
 },
 
 }

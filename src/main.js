@@ -9,12 +9,12 @@ import { getFirestore } from 'firebase/firestore';
 const app = createApp(App);
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDKMKpZN9BZV3mVjNvwKy6AiWGbjHgqDRk",
-  authDomain: "pass-a6741.firebaseapp.com",
-  projectId: "pass-a6741",
-  storageBucket: "pass-a6741.appspot.com",
-  messagingSenderId: "950579145531",
-  appId: "1:950579145531:web:c1e3fbf0cce091a036e51e"
+  apiKey: "AIzaSyDoSme6NYkCtznsfv5zEzTU4Jd6pruI3Ww",
+  authDomain: "password-manager-82b7c.firebaseapp.com",
+  projectId: "password-manager-82b7c",
+  storageBucket: "password-manager-82b7c.appspot.com",
+  messagingSenderId: "259777009384",
+  appId: "1:259777009384:web:ffa4fc6cff3b153bb29b5d"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
