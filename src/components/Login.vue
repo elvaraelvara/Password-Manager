@@ -1,4 +1,10 @@
 <template>
+  <header>
+      <nav>
+        <router-link to="/login">Login</router-link>
+        <router-link to="/signup">Register</router-link>
+      </nav>
+    </header>
   <div class="login">
     <!-- <header v-if="!isLoggedIn">
       <nav>

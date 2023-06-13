@@ -1,11 +1,11 @@
 <template>
   <div>
-    <!-- <header v-if="!isLoggedIn">
+    <header>
       <nav>
         <router-link to="/login">Login</router-link>
         <router-link to="/signup">Register</router-link>
       </nav>
-    </header> -->
+    </header>
     <h1>Register</h1>
     <div class="signup-box">
     <form @submit.prevent="showPopup">
@@ -26,6 +26,32 @@
     <!-- Pop-up Persyaratan -->
     <div v-if="showRequirementPopup" class="requirement-popup">
       <h2>Silakan setujui persyaratan sebelum melanjutkan!</h2>
+      <ul>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <a>Dengan mendaftarkan akun, Anda memberikan izin kepada kami untuk mengumpulkan, menyimpan, dan mengolah data pribadi Anda sesuai dengan kebijakan privasi yang berlaku.</a>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <a>Penggunaan data akan terbatas pada tujuan yang telah dijelaskan, yaitu Pasword Manager dan tidak akan digunakan untuk tujuan lain tanpa izin tambahan.</a>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <a>Kami akan melindungi data pribadi Anda dari penggunaan yang tidak sah, termasuk penggunaan komersial tanpa izin, penjualan kepada pihak ketiga, atau penggunaan yang merugikan Anda.</a>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <a>Setelah mendaftar, Anda memiliki hak untuk menarik izin Anda terhadap pengumpulan atau penggunaan data pribadi dengan mudah. Kami akan menghapus atau tidak lagi menggunakan data Anda setelah izin dicabut.</a>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <a>Kami berhak untuk mengubah atau memperbarui syarat dan ketentuan ini dari waktu ke waktu. Perubahan akan diinformasikan kepada Anda melalui pemberitahuan di aplikasi atau melalui email.</a>
+        </li>
+        <!-- <li>
+          <i class="fas fa-check-circle"></i>
+          <a>Persyaratan Perlindungan Anak-Anak: Untuk mendaftar, persyaratan khusus diterapkan untuk melindungi data pribadi anak-anak, termasuk membutuhkan izin dari orang tua sebelum mengumpulkan data mereka.</a>
+        </li> -->
+    </ul>
       <ul>
         <li v-for="requirement in requirements" :key="requirement.id">
           <label>
@@ -56,34 +82,34 @@ export default {
       requirements: [
         {
           id: 1,
-          text: 'Persyaratan izin sukarela: Untuk mendaftar, diperlukan izin sukarela dan jelas dari individu dengan pemahaman penuh tentang tujuan pengumpulan dan penggunaan data pribadi.',
+          text: 'Saya menyetujui Syarat dan Ketentuan berlaku.',
           checked: false
         },
-        {
-          id: 2,
-          text: 'Persyaratan informasi yang jelas: Saat mendaftar, pihak yang mengumpulkan data pribadi harus memberikan informasi yang jelas tentang identitas, tujuan pengumpulan data, jenis data yang dikumpulkan, serta hak individu terkait data pribadi.',
-          checked: false
-        },
-        {
-          id: 3,
-          text: 'Persyaratan penjelasan tujuan penggunaan data: Penggunaan data harus dijelaskan secara terperinci saat mendaftar dan terbatas pada tujuan yang telah dijelaskan, tidak boleh digunakan untuk tujuan lain tanpa izin tambahan.',
-          checked: false
-        },
-        {
-          id: 4,
-          text: 'Persyaratan perlindungan terhadap penggunaan tidak sah: Saat mendaftar, data pribadi harus dilindungi dari penggunaan yang tidak sah, termasuk penggunaan komersial tanpa izin, penjualan kepada pihak ketiga, atau penggunaan yang merugikan individu.',
-          checked: false
-        },
-        {
-          id: 5,
-          text: 'Persyaratan hak untuk menarik izin: Setelah mendaftar, individu memiliki hak untuk menarik izin mereka terhadap pengumpulan atau penggunaan data pribadi dengan mudah, dan data harus dihapus atau tidak lagi digunakan setelah izin dicabut.',
-          checked: false
-        },
-        {
-          id: 6,
-          text: 'Persyaratan perlindungan anak-anak: Untuk mendaftar, persyaratan khusus diterapkan untuk melindungi data pribadi anak-anak, termasuk membutuhkan izin dari orang tua sebelum mengumpulkan data mereka.',
-          checked: false
-        },
+        // {
+        //   id: 2,
+        //   text: 'Persyaratan informasi yang jelas: Saat mendaftar, pihak yang mengumpulkan data pribadi harus memberikan informasi yang jelas tentang identitas, tujuan pengumpulan data, jenis data yang dikumpulkan, serta hak individu terkait data pribadi.',
+        //   checked: false
+        // },
+        // {
+        //   id: 3,
+        //   text: 'Persyaratan penjelasan tujuan penggunaan data: Penggunaan data harus dijelaskan secara terperinci saat mendaftar dan terbatas pada tujuan yang telah dijelaskan, tidak boleh digunakan untuk tujuan lain tanpa izin tambahan.',
+        //   checked: false
+        // },
+        // {
+        //   id: 4,
+        //   text: 'Persyaratan perlindungan terhadap penggunaan tidak sah: Saat mendaftar, data pribadi harus dilindungi dari penggunaan yang tidak sah, termasuk penggunaan komersial tanpa izin, penjualan kepada pihak ketiga, atau penggunaan yang merugikan individu.',
+        //   checked: false
+        // },
+        // {
+        //   id: 5,
+        //   text: 'Persyaratan hak untuk menarik izin: Setelah mendaftar, individu memiliki hak untuk menarik izin mereka terhadap pengumpulan atau penggunaan data pribadi dengan mudah, dan data harus dihapus atau tidak lagi digunakan setelah izin dicabut.',
+        //   checked: false
+        // },
+        // {
+        //   id: 6,
+        //   text: 'Persyaratan perlindungan anak-anak: Untuk mendaftar, persyaratan khusus diterapkan untuk melindungi data pribadi anak-anak, termasuk membutuhkan izin dari orang tua sebelum mengumpulkan data mereka.',
+        //   checked: false
+        // },
       ]
     }
   },
@@ -146,6 +172,7 @@ export default {
 </script>
 
 <style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
 * {
   box-sizing: border-box;
 }
@@ -172,6 +199,10 @@ h1 {
   color: #333;
   text-align: center;
   margin-bottom: 30px;
+}
+
+.requirement-popup ul li a {
+  margin-left: 10px;
 }
 
 .signup-box {
