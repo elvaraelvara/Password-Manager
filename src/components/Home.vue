@@ -21,16 +21,30 @@
       <br/>
       <button type="submit">Simpan</button>
     </form>
-    <ul>
-      <li class="data" v-for="passwordData in passwordList" :key="passwordData.id">
-        <div class="outputaplikasi">{{ passwordData.appName }}</div>
-        <div class="outputakun">Nama Akun: {{ passwordData.accountName }}</div>
-        <div class="outputpass">Password: {{ passwordData.password }}</div>
-        <button @click="deletePassword(passwordData.id)">Hapus</button>
-      </li>
-    </ul>
+    <br>
+        <!-- <div class="password-table">
+      <div class="table-row" v-for="(row, index) in passwordRows" :key="index">
+        <div class="data" v-for="passwordData in row" :key="passwordData.id">
+          <div class="outputaplikasi">{{ passwordData.appName }}</div>
+          <div class="outputakun">Nama Akun: {{ passwordData.accountName }}</div>
+          <div class="outputpass">Password: {{ passwordData.password }}</div>
+          <button @click="deletePassword(passwordData.id)">Hapus</button>
+        </div>
+      </div>
+    </div> -->
+    <div class="password-container">
+      <div class="password-row" v-for="(passwordData, index) in passwordList" :key="passwordData.id">
+        <div class="password-item">
+          <div class="outputaplikasi">{{ passwordData.appName }}</div>
+          <div class="outputakun">Nama Akun: {{ passwordData.accountName }}</div>
+          <div class="outputpass">Password: {{ passwordData.password }}</div>
+          <button @click="deletePassword(passwordData.id)">Hapus</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 
 <script>
 import { ref } from 'vue';
@@ -184,11 +198,11 @@ export default {
 </script>
 
 <style>
-.home{
+/* .home{
 display: flex;
 flex-direction: column;
 align-items: center;
-}
+} */
 
 .akun input,
 .aplikasi input {
@@ -202,7 +216,7 @@ width: 100%;
 }
 
 /* Style untuk container data */
-.data {
+/* .data {
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -213,29 +227,29 @@ padding: 20px;
 margin-top: 20px;
 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 width: 80%;
-}
+} */
 
 /* Style untuk output aplikasi */
-.outputaplikasi {
+/* .outputaplikasi {
 font-size: 18px;
 margin-bottom: 10px;
 font-weight: bold;
-}
+} */
 
 /* Style untuk output akun */
-.outputakun {
+/* .outputakun {
 font-size: 16px;
 margin-bottom: 10px;
 }
 
 /* Style untuk output password */
-.outputpass {
+/* .outputpass {
 font-size: 16px;
 margin-bottom: 20px;
-}
+} */ 
 
 /* Style untuk tombol hapus */
-button {
+/* button {
 background-color: #ff6666;
 color: white;
 font-size: 16px;
@@ -245,13 +259,13 @@ padding: 10px 15px;
 cursor: pointer;
 transition: all 0.3s ease;
 margin-top: 10px;
-}
+} */
 
 /* Style untuk tombol hapus hover */
-button:hover {
+/* button:hover {
 background-color: #e60000;
 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-}
+} */
 
 /* Style untuk input password */
 .password input {
@@ -285,7 +299,7 @@ text-align: center;
 }
 
 /* Style untuk tombol logout dan hapus akun */
-button {
+/* button {
 background-color: #ff6666;
 color: white;
 font-size: 16px;
@@ -295,11 +309,140 @@ padding: 10px 15px;
 cursor: pointer;
 transition: all 0.3s ease;
 margin-top: 20px;
-}
+} */
 
 /* Style untuk tombol logout dan hapus akun hover */
-button:hover {
+/* button:hover {
 background-color: #e60000;
 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+} */
+
+/* .home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.data {
+  display: flex;
+  flex-direction: row; /* Mengubah orientasi list menjadi horizontal */
+  justify-content: space-between; /* Mengatur jarak antara elemen-elemen di dalam list */
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  width: 80%;
 }
+
+/* .outputaplikasi {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.outputakun {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.outputpass {
+  font-size: 16px;
+  margin-bottom: 20px;
+} */
+
+button {
+  background-color: #ff6666;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #e60000;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* .password-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.password-row {
+  width: 20%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.password-item {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 20px;
+} */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px; /* Atur lebar maksimal konten */
+  margin: 0 auto; /* Tengahkan konten di tengah halaman */
+  padding: 20px; /* Berikan ruang jarak di kanan dan kiri konten */
+}
+
+.password-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.password-row {
+  width: 25%; /* Mengatur lebar 25% agar ada 4 kotak per baris */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.password-item {
+  width: 100%;
+  height: 150px; /* Atur tinggi kotak sesuai kebutuhan */
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 20px;
+}
+
+/* Mengatur responsivitas */
+@media (max-width: 768px) {
+  .password-row {
+    width: 50%; /* Pada tampilan layar lebar (max-width: 768px), mengatur lebar 50% agar ada 2 kotak per baris */
+  }
+}
+
+@media (max-width: 480px) {
+  .password-row {
+    width: 100%; /* Pada tampilan layar lebih sempit (max-width: 480px), mengatur lebar 100% agar hanya ada 1 kotak per baris */
+  }
+}
+
+.outputaplikasi,
+.outputakun,
+.outputpass {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Styles lainnya */
+
+
 </style>
+
