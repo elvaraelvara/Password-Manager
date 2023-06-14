@@ -444,4 +444,9 @@ button:hover {
 /* Styles lainnya */
 
 
+<<<<<<< HEAD
 </style>
+=======
+</style>
+
+>>>>>>> 8e52f5c8e5a8b143e1f1782951fa3afaeaf1fe97
