@@ -83,8 +83,7 @@ export default {
         appName: this.appName,
         accountName: this.accountName,
         password: encryptedPassword,
-        userId: this.userId,
-        // key: key
+        userId: this.userId
       };
       try {
         const docRef = await addDoc(collection(getFirestore(), 'passwords'), passwordData);
