@@ -1,7 +1,15 @@
 <template>
+  <header>
+  <!-- <button v-if="isLoggedIn" @click="logout()">Logout</button> -->
+    <!-- <button v-if="isLoggedIn" @click="deleteAccount()">Hapus Akun</button>  -->
+    <nav>
+        <!-- <router-link to="/login">Logout</router-link> -->
+        <button type="nav" v-if="isLoggedIn" @click="logout()">Logout</button>
+        <button type="nav" v-if="isLoggedIn" @click="deleteAccount()">Hapus Akun</button> 
+        <!-- <router-link to="/signup">Register</router-link> -->
+      </nav>
+    </header>
   <div class="home">
-    <button v-if="isLoggedIn" @click="logout()">Logout</button>
-    <button v-if="isLoggedIn" @click="deleteAccount()">Hapus Akun</button>
     <h1>Password Manager</h1>
     <form @submit.prevent="addPassword">
       <label class="aplikasi">
@@ -38,7 +46,7 @@
           <div class="outputaplikasi">{{ passwordData.appName }}</div>
           <div class="outputakun">Nama Akun: {{ passwordData.accountName }}</div>
           <div class="outputpass">Password: {{ passwordData.password }}</div>
-          <button @click="deletePassword(passwordData.id)">Hapus</button>
+          <button type="hapus"  @click="deletePassword(passwordData.id)">Hapus</button>
         </div>
       </div>
     </div>
@@ -52,6 +60,7 @@ import { collection, addDoc, getDocs, deleteDoc, doc, query, where, writeBatch }
 import { AES, enc } from 'crypto-js';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth, deleteUser } from 'firebase/auth';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'Home',
@@ -62,19 +71,21 @@ export default {
       password: '',
       passwordList: [],
       isLoggedIn: true,
-      userId: '',
+      userId: ''
     };
   },
+
   methods: {
     async addPassword() {
-      const encryptedPassword = AES.encrypt(this.password, 'secret').toString();
+      const key = uuidv4();
+      const encryptedPassword = AES.encrypt(this.password, key).toString();
       const passwordData = {
         appName: this.appName,
         accountName: this.accountName,
         password: encryptedPassword,
         userId: this.userId,
+        // key: key
       };
-
       try {
         const docRef = await addDoc(collection(getFirestore(), 'passwords'), passwordData);
         passwordData.id = docRef.id;
@@ -99,27 +110,11 @@ export default {
         console.error('Error deleting password:', error);
       }
     },
-    async fetchPasswords() {
-      try {
-        const querySnapshot = await getDocs(collection(getFirestore(), 'passwords'));
-        this.passwordList = querySnapshot.docs.map(doc => {
-          const decryptedPassword = AES.decrypt(doc.data().password, 'secret').toString(enc.Utf8);
-          return {
-            id: doc.id,
-            appName: doc.data().appName,
-            accountName: doc.data().accountName,
-            password: decryptedPassword,
-          };
-        });
-      } catch (error) {
-        console.error('Error fetching passwords:', error);
-      }
-    },
     async fetchPasswordsByUser() {
       try {
         const querySnapshot = await getDocs(query(collection(getFirestore(), 'passwords'), where('userId', '==', this.userId)));
         this.passwordList = querySnapshot.docs.map(doc => {
-          const decryptedPassword = AES.decrypt(doc.data().password, 'secret').toString(enc.Utf8);
+          const decryptedPassword = AES.decrypt(doc.data().password, doc.data().key).toString(enc.Utf8);  // gunakan key yang disimpan di database
           return {
             id: doc.id,
             appName: doc.data().appName,
@@ -352,7 +347,7 @@ box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: 20px;
 } */
 
-button {
+button[type='hapus']{
   background-color: #ff6666;
   color: white;
   font-size: 16px;
@@ -364,10 +359,28 @@ button {
   margin-top: 10px;
 }
 
-button:hover {
+button[type='hapus']:hover{
   background-color: #e60000;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
+
+button[type='nav']{
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 18px;
+    font-weight: bold;
+    /* font: inherit; */
+    color: white;
+    cursor: pointer;
+}
+button[type='nav']:hover {
+  transform: scale(1.05);
+  color: #42b983;
+    /* color: grey;
+    text-decoration: underline; */
+}
+
 
 /* .password-container {
   display: flex;
@@ -444,9 +457,4 @@ button:hover {
 /* Styles lainnya */
 
 
-<<<<<<< HEAD
 </style>
-=======
-</style>
-
->>>>>>> 8e52f5c8e5a8b143e1f1782951fa3afaeaf1fe97
