@@ -1,7 +1,6 @@
 
 # Secure Your Credentials with AES Encryption – A Reliable and User-Friendly Password Manager
 
-## Why Choose This Password Manager?
 
 🔒 **Advanced Security**  
 Your passwords are encrypted using the industry-standard AES encryption algorithm, ensuring maximum protection against unauthorized access.
@@ -18,11 +17,6 @@ Whether for personal use or enterprise-level security, the application is flexib
 🔐 **Privacy-Oriented**  
 No external dependencies or third-party storage—your data remains safe and under your control at all times.
 
-🚀 **Easy to Deploy and Maintain**  
-With a simple setup process and clear documentation, getting started with this password manager is quick and hassle-free.
-
-Stay secure and organized while keeping your sensitive information protected.  
-**Your passwords, your security!** 🔑
 
 ## Project setup
 ```
